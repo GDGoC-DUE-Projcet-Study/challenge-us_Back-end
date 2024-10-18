@@ -1,6 +1,10 @@
 from typing import Union
-
 from fastapi import FastAPI
+
+import api.models
+import api.user_router
+from database import engine
+api.models.Base.metadata.create_all(bind=engine) #자동으로 테이블 생성 설정 
 
 app = FastAPI()
 
@@ -17,3 +21,5 @@ def read_item(item_id: int, q: Union[str, None] = None):
 @app.get("/test")
 def read_test():
     return {"test":"done"}
+
+app.include_router(router=api.user_router.user)
