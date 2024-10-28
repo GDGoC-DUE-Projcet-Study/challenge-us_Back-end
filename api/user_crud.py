@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 
 from api.models import User
-from api.user_schema import CreateUser
+from api.user_schema import CreateUser,UpdateUser
+
 def insert_user(new_user:CreateUser,db:Session):
     user = User(
         id = new_user.id,
@@ -12,3 +13,17 @@ def insert_user(new_user:CreateUser,db:Session):
     db.commit()
 
     return "회원가입완료"
+
+def get_all_user(db:Session):
+    user_list = db.query(User).all()
+    return user_list
+
+def get_user(id,db:Session):
+    user = db.query(User).filter(User.id==id).first()
+    return user
+
+def update_user(id,db:Session):
+    user = db.query(User).filter(User.id==id).first()
+
+    
+    return user

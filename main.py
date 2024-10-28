@@ -18,8 +18,5 @@ def read_root():
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
 
-@app.get("/test")
-def read_test():
-    return {"test":"done"}
 
 app.include_router(router=api.user_router.user)
