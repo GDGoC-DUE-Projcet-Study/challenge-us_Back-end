@@ -23,5 +23,5 @@ async def get_user(user_id:str,db:Session=Depends(get_db)):
     return user_crud.get_user(user_id,db)
 
 @user.put(path="/update/{user_id}", description="회원 정보 수정")
-async def update_user(user_id:str,db:Session=Depends(get_db)):
-    return user_crud.update_user(user_id,db)
+async def update_user(user_id:str,update_user:user_schema.UpdateUser,db:Session=Depends(get_db)):
+    return user_crud.update_user(user_id,update_user,db)

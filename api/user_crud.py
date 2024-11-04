@@ -22,8 +22,13 @@ def get_user(id,db:Session):
     user = db.query(User).filter(User.id==id).first()
     return user
 
-def update_user(id,db:Session):
+def update_user(id,update_user:UpdateUser,db:Session):
     user = db.query(User).filter(User.id==id).first()
 
-    
+    user.pw = update_user.pw
+    user.name = update_user.name
+
+    db.add(user)
+    db.commit()
+
     return user

@@ -12,6 +12,5 @@ class DeleteUser(BaseModel):
     name: str
 
 class UpdateUser(BaseModel):
-    id: str
     pw: str
     name: str
