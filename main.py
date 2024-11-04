@@ -1,4 +1,5 @@
 from typing import Union
+import api.todo_router
 from fastapi import FastAPI
 
 import api.models
@@ -20,3 +21,4 @@ def read_item(item_id: int, q: Union[str, None] = None):
 
 
 app.include_router(router=api.user_router.user)
+app.include_router(router=api.todo_router.todo)

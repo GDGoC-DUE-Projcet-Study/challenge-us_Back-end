@@ -8,6 +8,7 @@ from api import user_crud
 
 user = APIRouter(
         prefix="/user",
+        tags=["user"]
 )
 
 @user.post(path="/create", description="회원가입 - 유저 생성")
@@ -25,3 +26,5 @@ async def get_user(user_id:str,db:Session=Depends(get_db)):
 @user.put(path="/update/{user_id}", description="회원 정보 수정")
 async def update_user(user_id:str,update_user:user_schema.UpdateUser,db:Session=Depends(get_db)):
     return user_crud.update_user(user_id,update_user,db)
+
+

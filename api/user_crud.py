@@ -31,4 +31,4 @@ def update_user(id,update_user:UpdateUser,db:Session):
     db.add(user)
     db.commit()
 
-    return user
+    return 수정완료
