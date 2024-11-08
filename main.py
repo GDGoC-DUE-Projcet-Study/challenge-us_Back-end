@@ -15,10 +15,5 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
-
-
 app.include_router(router=api.user_router.user)
 app.include_router(router=api.todo_router.todo)

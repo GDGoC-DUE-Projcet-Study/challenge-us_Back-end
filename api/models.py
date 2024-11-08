@@ -11,7 +11,7 @@ class User(Base):
     pw = Column(VARCHAR(30), nullable=False)
     name = Column(String,nullable=False)
     createdate = Column(DateTime,nullable=False,default=datetime.now)
-    phone = Column(Integer,nullable = False)
+    phone = Column(String,nullable = False)
 
     todo = relationship("Todo",back_populates="owner")
 
@@ -21,7 +21,7 @@ class Todo(Base):
     idx = Column(Integer,primary_key=True,index=True)
     title = Column(String)
     description = Column(String)
-    complete = Column(Boolean,default=False)
+    complete = Column(Boolean,default=False) #달성도 %
 
     owner_id = Column(VARCHAR(30),ForeignKey("User.id"))
 

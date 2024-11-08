@@ -7,7 +7,8 @@ def insert_user(new_user:CreateUser,db:Session):
     user = User(
         id = new_user.id,
         pw = new_user.pw,
-        name = new_user.name
+        name = new_user.name,
+        phone = new_user.phone
     )
     db.add(user)
     db.commit()
