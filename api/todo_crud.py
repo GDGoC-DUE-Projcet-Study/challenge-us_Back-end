@@ -1,10 +1,14 @@
 from sqlalchemy.orm import Session
 
-from api.models import Todo
+from api.models import Todo,User
 from api.todo_schema import CreateTodo,UpdateTodo
 
-def post_todo(new_todo:CreateTodo,db:Session):
+
+def post_todo(id,new_todo:CreateTodo,db:Session):
+    if db.query(User).filter(User.id==id).first()==None:
+        return "목표 등록 실패"
     todo=Todo(
+        owner_id = id,
         title = new_todo.title,
         description = new_todo.description
     )

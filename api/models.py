@@ -22,6 +22,7 @@ class Todo(Base):
     title = Column(String)
     description = Column(String)
     complete = Column(Boolean,default=False) #달성도 %
+    percent = Column(Integer,default=0)
 
     owner_id = Column(VARCHAR(30),ForeignKey("User.id"))
 

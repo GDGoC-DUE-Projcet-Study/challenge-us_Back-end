@@ -12,8 +12,8 @@ todo = APIRouter(
 )
 
 @todo.post(path="/create", description="목표 생성")
-async def create_todo(new_todo:todo_schema.CreateTodo,db: Session = Depends(get_db)):
-    return todo_crud.post_todo(new_todo, db)
+async def create_todo(id,new_todo:todo_schema.CreateTodo,db: Session = Depends(get_db)):
+    return todo_crud.post_todo(id,new_todo, db)
 
 @todo.get(path="/get", description="전체 목표 조회")
 async def get_todo_list(db:Session=Depends(get_db)):
