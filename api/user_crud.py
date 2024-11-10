@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from api.models import User
-from api.user_schema import CreateUser,UpdateUser
+from api.user_schema import CreateUser,UpdateUser,DeleteUser
 
 def insert_user(new_user:CreateUser,db:Session):
     user = User(
@@ -33,3 +33,12 @@ def update_user(id,update_user:UpdateUser,db:Session):
     db.commit()
 
     return "수정완료"
+
+def delete_user(delete_user:DeleteUser,db:Session):
+    user = db.query(User).filter(User.id==delete_user.id).first()
+    if user.pw==delete_user.pw:
+        db.query(User).filter(User.id==delete_user.id).delete()
+    
+    db.commit()
+
+    return "회원 삭제"

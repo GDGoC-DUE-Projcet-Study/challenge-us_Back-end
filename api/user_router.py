@@ -27,4 +27,7 @@ async def get_user(user_id:str,db:Session=Depends(get_db)):
 async def update_user(user_id:str,update_user:user_schema.UpdateUser,db:Session=Depends(get_db)):
     return user_crud.update_user(user_id,update_user,db)
 
+@user.delete(path="/delete",description="회원삭제")
+async def delete_user(delete_user:user_schema.DeleteUser,db:Session=Depends(get_db)):
+    return user_crud.delete_user(delete_user,db)
 
