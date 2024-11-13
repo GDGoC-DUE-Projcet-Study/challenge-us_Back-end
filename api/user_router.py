@@ -21,7 +21,7 @@ async def create_user(new_user:user_schema.CreateUser,db: Session = Depends(get_
 @user.get(path="/get", description="전체 회원 조회")
 async def get_all_user(db:Session=Depends(get_db)):
     res=user_crud.get_all_user(db)
-    if res!=None:
+    if res==None:
         raise HTTPException(status_code=422)
     return res
 

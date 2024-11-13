@@ -17,8 +17,8 @@ def post_todo(id,new_todo:CreateTodo,db:Session):
 
     return "목표 등록 완료"
 
-def get_todo_list(db:Session):
-    todo_list=db.query(Todo).all()
+def get_todo_list(owner_id,db:Session):
+    todo_list=db.query(Todo.owner_id==owner_id).all()
     return todo_list
 
 def get_todo(idx,db:Session):
@@ -36,5 +36,12 @@ def update_todo(idx,update_todo:UpdateTodo,db:Session):
 
     return "수정완료"
 
+def delete_user(idx,db:Session):
+    todo=db.query(Todo).filter(Todo.idx==idx).delete()
+    if todo==None:
+        return None
+    db.commit()
+
+    return "목표 삭제"
 
 

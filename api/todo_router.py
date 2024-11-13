@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from database import get_db
 
-from fastapi import APIRouter,Depends
+from fastapi import APIRouter,Depends,HTTPException
 
 from api import todo_crud
 from api import todo_schema
@@ -15,16 +15,33 @@ todo = APIRouter(
 async def create_todo(id,new_todo:todo_schema.CreateTodo,db: Session = Depends(get_db)):
     return todo_crud.post_todo(id,new_todo, db)
 
-@todo.get(path="/get", description="전체 목표 조회")
-async def get_todo_list(db:Session=Depends(get_db)):
-    return todo_crud.get_todo_list(db)
+@todo.get(path="/get/{owner_id}", description="회원별 전체 목표 조회")
+async def get_todo_list(owner_id,db:Session=Depends(get_db)):
+    res=todo_crud.get_todo_list(owner_id,db)
+    if res==None:
+        raise HTTPException(status_code=400)
+    return "전체 목표 조회"
 
 @todo.get(path="/get/{todo_idx}", description="개별 목표 조회")
 async def get_todo(todo_idx:str,db:Session=Depends(get_db)):
-    return todo_crud.get_todo(todo_idx,db)
+    res = todo_crud.get_todo(todo_idx,db)
+    if res==None:
+        raise HTTPException(status_code=400)
+    return "개별 목표 조회"
 
 @todo.put(path="/update/{todo_idx}", description="목표 수정")
 async def update_todo(todo_idx:str,update_todo:todo_schema.UpdateTodo,db:Session=Depends(get_db)):
-    return todo_crud.update_todo(todo_idx,update_todo,db)
+    res = todo_crud.update_todo(todo_idx,update_todo,db)
+    if res!="수정완료":
+        raise HTTPException(status_code=422)
+    return res
+
+@todo.delete(path="/delete", description="목표 삭제")
+async def delete_todo(idx,db:Session=Depends(get_db)):
+    res=todo_crud.delete_user(idx,db)
+    if res==None:
+        raise HTTPException(status_code=404)
+    return res
+
 
 
