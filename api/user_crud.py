@@ -3,10 +3,17 @@ from sqlalchemy.orm import Session
 from api.models import User
 from api.user_schema import CreateUser,UpdateUser,DeleteUser
 
+from passlib.context import CryptContext
+bcrypt_context = CryptContext(schemes=['bcrypt'],deprecated="auto")
+
+def get_password_hash(password):
+    return bcrypt_context.hash(password)
+
 def insert_user(new_user:CreateUser,db:Session):
+    hashpass=get_password_hash(new_user.pw)
     user = User(
         id = new_user.id,
-        pw = new_user.pw,
+        pw = hashpass,
         name = new_user.name,
         phone = new_user.phone
     )
