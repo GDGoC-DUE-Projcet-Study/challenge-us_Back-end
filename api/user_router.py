@@ -15,14 +15,14 @@ user = APIRouter(
 async def create_user(new_user:user_schema.CreateUser,db: Session = Depends(get_db)): 
     res = user_crud.insert_user(new_user, db)
     if res !="회원가입완료":
-        raise HTTPException(status_code=422)
+        raise HTTPException(status_code=400)
     return res
 
 @user.get(path="/get", description="전체 회원 조회")
 async def get_all_user(db:Session=Depends(get_db)):
     res=user_crud.get_all_user(db)
     if res==None:
-        raise HTTPException(status_code=422)
+        raise HTTPException(status_code=403)
     return res
 
 @user.get(path="/get/{user_id}", description="개인 회원 조회")

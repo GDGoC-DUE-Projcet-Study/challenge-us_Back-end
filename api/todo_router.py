@@ -13,27 +13,29 @@ todo = APIRouter(
 
 @todo.post(path="/create", description="목표 생성")
 async def create_todo(id,new_todo:todo_schema.CreateTodo,db: Session = Depends(get_db)):
-    return todo_crud.post_todo(id,new_todo, db)
+    res = todo_crud.post_todo(id,new_todo, db)
+    if res=="목표 등록 실패":
+        raise HTTPException(status_code=400)
 
 @todo.get(path="/get/{owner_id}", description="회원별 전체 목표 조회")
 async def get_todo_list(owner_id,db:Session=Depends(get_db)):
     res=todo_crud.get_todo_list(owner_id,db)
     if res==None:
-        raise HTTPException(status_code=400)
+        raise HTTPException(status_code=404)
     return "전체 목표 조회"
 
 @todo.get(path="/get/{todo_idx}", description="개별 목표 조회")
 async def get_todo(todo_idx:str,db:Session=Depends(get_db)):
     res = todo_crud.get_todo(todo_idx,db)
     if res==None:
-        raise HTTPException(status_code=400)
+        raise HTTPException(status_code=404)
     return "개별 목표 조회"
 
 @todo.put(path="/update/{todo_idx}", description="목표 수정")
 async def update_todo(todo_idx:str,update_todo:todo_schema.UpdateTodo,db:Session=Depends(get_db)):
     res = todo_crud.update_todo(todo_idx,update_todo,db)
     if res!="수정완료":
-        raise HTTPException(status_code=422)
+        raise HTTPException(status_code=409)
     return res
 
 @todo.delete(path="/delete", description="목표 삭제")
