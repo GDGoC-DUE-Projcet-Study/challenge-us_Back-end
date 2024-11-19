@@ -19,8 +19,8 @@ async def create_user(new_user:user_schema.CreateUser,db: Session = Depends(get_
     return res
 
 @user.get(path="/get", description="전체 회원 조회")
-async def get_all_user(db:Session=Depends(get_db)):
-    res=user_crud.get_all_user(db)
+async def get_all_user(id:str,pw:str,db:Session=Depends(get_db)):
+    res=user_crud.get_all_user(id,pw,db)
     if res==None:
         raise HTTPException(status_code=403)
     return res
