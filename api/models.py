@@ -21,6 +21,8 @@ class Todo(Base):
     idx = Column(Integer,primary_key=True,index=True)
     title = Column(String)
     description = Column(String)
+    start_date = Column(DateTime)
+    end_date = Column(DateTime)
     complete = Column(Boolean,default=False) #달성도 %
     percent = Column(Integer,default=0)
 
