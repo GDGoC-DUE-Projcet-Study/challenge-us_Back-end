@@ -8,3 +8,4 @@ class CreateTodo(BaseModel):
 class UpdateTodo(BaseModel):
     title: str
     description:str
+    percent:int

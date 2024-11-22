@@ -27,9 +27,12 @@ def get_todo(idx,db:Session):
 
 def update_todo(idx,update_todo:UpdateTodo,db:Session):
     todo = db.query(Todo).filter(Todo.idx==idx).first()
-
+    
     todo.title = update_todo.title
     todo.description = update_todo.description
+    todo.percent = update_todo.percent
+    if todo.percent>99.9:
+        todo.complete=True
 
     db.add(todo)
     db.commit()
