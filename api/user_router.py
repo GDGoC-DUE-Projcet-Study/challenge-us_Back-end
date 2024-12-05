@@ -13,7 +13,9 @@ user = APIRouter(
 
 @user.post(path="/create", description="회원가입 - 유저 생성")
 async def create_user(new_user:user_schema.CreateUser,db: Session = Depends(get_db)): 
+    print(new_user)
     res = user_crud.insert_user(new_user, db)
+    print(res)
     if res !="회원가입완료":
         raise HTTPException(status_code=400)
     return res
