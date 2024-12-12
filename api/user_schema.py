@@ -17,6 +17,20 @@ class CreateUser(BaseModel):
             }
         } 
 
+class LoginUser(BaseModel):
+    id: str
+    pw: str
+
+    class Config:
+        json_schema_extra = {
+            "example" : {
+                "id" : "아이디",
+                "pw" : "비번"
+            }
+        } 
+
+        
+
 class DeleteUser(BaseModel):
     id: str
     pw: str

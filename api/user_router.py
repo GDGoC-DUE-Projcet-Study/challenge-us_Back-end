@@ -13,25 +13,24 @@ user = APIRouter(
 
 @user.post(path="/create", description="회원가입 - 유저 생성")
 async def create_user(new_user:user_schema.CreateUser,db: Session = Depends(get_db)): 
-    print(new_user)
     res = user_crud.insert_user(new_user, db)
     print(res)
     if res !="회원가입완료":
         raise HTTPException(status_code=400)
     return res
 
-@user.get(path="/get", description="전체 회원 조회")
+@user.get(path="/get/all", description="전체 회원 조회")
 async def get_all_user(id:str,pw:str,db:Session=Depends(get_db)):
     res=user_crud.get_all_user(id,pw,db)
     if res==None:
         raise HTTPException(status_code=403)
     return res
 
-@user.get(path="/get/{user_id}", description="개인 회원 조회")
-async def get_user(user_id:str,db:Session=Depends(get_db)):
-    res = user_crud.get_user(user_id,db)
-    if res==None:
-        raise HTTPException(status_code=404)
+@user.post(path="/login", description="로그인")
+async def get_user(login_user:user_schema.LoginUser,db:Session=Depends(get_db)):
+    res = user_crud.get_user(login_user,db)
+    #if res=="pwerr":
+    #    raise HTTPException(status_code=404)
     return res
 
 @user.put(path="/update/{user_id}", description="회원 정보 수정")

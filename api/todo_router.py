@@ -16,13 +16,14 @@ async def create_todo(id,new_todo:todo_schema.CreateTodo,db: Session = Depends(g
     res = todo_crud.post_todo(id,new_todo, db)
     if res=="목표 등록 실패":
         raise HTTPException(status_code=400)
+    return res
 
 @todo.get(path="/get/{owner_id}", description="회원별 전체 목표 조회")
 async def get_todo_list(owner_id,db:Session=Depends(get_db)):
     res=todo_crud.get_todo_list(owner_id,db)
     if res==None:
         raise HTTPException(status_code=404)
-    return "전체 목표 조회"
+    return res
 
 @todo.get(path="/get/{todo_idx}", description="개별 목표 조회")
 async def get_todo(todo_idx:str,db:Session=Depends(get_db)):

@@ -5,8 +5,8 @@ from api.todo_schema import CreateTodo,UpdateTodo
 
 
 def post_todo(id,new_todo:CreateTodo,db:Session):
-    if db.query(User).filter(User.id==id).first()==None:
-        return "목표 등록 실패"
+    # if db.query(User).filter(User.id==id).first()==None:
+    #     return "목표 등록 실패"
     todo=Todo(
         owner_id = id,
         title = new_todo.title,
@@ -15,10 +15,13 @@ def post_todo(id,new_todo:CreateTodo,db:Session):
     db.add(todo)
     db.commit()
 
-    return "목표 등록 완료"
+    todo_list=db.query(Todo).filter(Todo.owner_id==id).all()
+
+    return todo_list
 
 def get_todo_list(owner_id,db:Session):
-    todo_list=db.query(Todo.owner_id==owner_id).all()
+    todo_list=db.query(Todo).filter(Todo.owner_id==owner_id).all()
+    print(todo_list)
     return todo_list
 
 def get_todo(idx,db:Session):

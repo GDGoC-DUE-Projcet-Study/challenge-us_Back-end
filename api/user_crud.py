@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from api.models import User
-from api.user_schema import CreateUser,UpdateUser,DeleteUser
+from api.user_schema import CreateUser,UpdateUser,DeleteUser,LoginUser
 
 from passlib.context import CryptContext
 bcrypt_context = CryptContext(schemes=['bcrypt'],deprecated="auto")
@@ -33,9 +33,16 @@ def get_all_user(id,pw,db:Session):
         return user_list
     return "관리자가 아닙니다"
 
-def get_user(id,db:Session):
-    user = db.query(User).filter(User.id==id).first()
-    return user
+def get_user(login_user,db:Session):
+    user = db.query(User).filter(User.id==login_user.id).first()
+    if(user==None):
+        return "iderr"
+    else:
+        if(verify_password(login_user.pw,user.pw)):
+            return user
+        else:
+            return "pwerr"
+    
 
 def update_user(id,update_user:UpdateUser,db:Session):
     user = db.query(User).filter(User.id==id).first()
