@@ -28,26 +28,30 @@ def get_todo(idx,db:Session):
     todo = db.query(Todo).filter(Todo.idx==idx).first()
     return todo
 
-def update_todo(idx,update_todo:UpdateTodo,db:Session):
+def update_todo(id,idx,update_todo:UpdateTodo,db:Session):
     todo = db.query(Todo).filter(Todo.idx==idx).first()
-    
     todo.title = update_todo.title
     todo.description = update_todo.description
-    todo.percent = update_todo.percent
-    if todo.percent>99.9:
-        todo.complete=True
-
+    todo.complete = update_todo.complete
+    #todo.percent = update_todo.percent
+    # if todo.percent>99.9:
+    #     todo.complete=True
+    
     db.add(todo)
     db.commit()
 
-    return "수정완료"
+    todo_list=db.query(Todo).filter(Todo.owner_id==id).all()
 
-def delete_user(idx,db:Session):
+    return todo_list
+
+def delete_user(id,idx,db:Session):
     todo=db.query(Todo).filter(Todo.idx==idx).delete()
     if todo==None:
         return None
     db.commit()
 
-    return "목표 삭제"
+    todo_list=db.query(Todo).filter(Todo.owner_id==id).all()
+
+    return todo_list
 
 

@@ -32,16 +32,15 @@ async def get_todo(todo_idx:str,db:Session=Depends(get_db)):
         raise HTTPException(status_code=404)
     return "개별 목표 조회"
 
-@todo.put(path="/update/{todo_idx}", description="목표 수정")
-async def update_todo(todo_idx:str,update_todo:todo_schema.UpdateTodo,db:Session=Depends(get_db)):
-    res = todo_crud.update_todo(todo_idx,update_todo,db)
-    if res!="수정완료":
-        raise HTTPException(status_code=409)
+@todo.put(path="/update", description="목표 수정")
+async def update_todo(id,idx:str,update_todo:todo_schema.UpdateTodo,db:Session=Depends(get_db)):
+    res = todo_crud.update_todo(id,idx,update_todo,db)
     return res
 
 @todo.delete(path="/delete", description="목표 삭제")
-async def delete_todo(idx,db:Session=Depends(get_db)):
-    res=todo_crud.delete_user(idx,db)
+async def delete_todo(id,idx,db:Session=Depends(get_db)):
+    res=todo_crud.delete_user(id,idx,db)
+    
     if res==None:
         raise HTTPException(status_code=404)
     return res
